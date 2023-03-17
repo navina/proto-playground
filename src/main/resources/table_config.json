@@ -1,0 +1,36 @@
+{
+  "tableName": "bnrUrl3",
+  "tableType": "REALTIME",
+  "segmentsConfig": {
+    "timeColumnName": "collection_time",
+    "replicasPerPartition": "1",
+    "schemaName": "bnrUrl3",
+    "replication": "1"
+  },
+  "tenants": {},
+  "tableIndexConfig": {
+    "loadMode": "MMAP",
+    "streamConfigs": {
+      "streamType": "pulsar",
+      "stream.pulsar.topic.name": "persistent://q6/default/bnr_url",
+      "stream.pulsar.bootstrap.servers": "pulsar://pulsar.internal.q6cyber.com:6650",
+      "stream.pulsar.consumer.prop.auto.offset.reset" : "smallest",
+      "stream.pulsar.consumer.type": "highlevel",
+      "stream.pulsar.fetch.timeout.millis": "60000",
+      "stream.pulsar.decoder.class.name": "org.apache.pinot.plugin.inputformat.protobuf.ProtoBufMessageDecoder",
+      "stream.pulsar.decoder.prop.descriptorFile": "/tmp/grpc-1.85.desc",
+      "stream.pulsar.decoder.prop.protoClassName": "kafka.KafkaBnrUrl",
+      "stream.pulsar.consumer.factory.class.name": "org.apache.pinot.plugin.stream.pulsar.PulsarConsumerFactory",
+      "realtime.segment.flush.threshold.rows": "1000000",
+      "realtime.segment.flush.threshold.time": "6h"
+    }
+  },
+  "ingestionConfig": {
+    "complexTypeConfig": {
+      "delimiter" : "."
+    }
+  },
+  "metadata": {
+    "customConfigs": {}
+  }
+}

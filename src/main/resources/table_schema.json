@@ -1,0 +1,128 @@
+{
+	"schemaName": "bnrUrl3",
+	"primaryKeyColumns": ["id"],
+	"dimensionFieldSpecs": [
+		{
+			"name": "report_id",
+			"dataType": "STRING"
+		},
+		{
+			"name": "id",
+			"dataType": "STRING"
+		},
+
+		{
+			"name": "bot_id",
+			"dataType": "STRING"
+		},
+		{
+			"name": "source_name",
+			"dataType": "STRING"
+		},
+		{
+			"name": "url.proto",
+			"dataType": "STRING"
+		},
+		{
+			"name": "url.ip.geoip.connection_type",
+			"dataType": "STRING"
+		},
+		{
+			"name": "url.ip.geoip.timezone",
+			"dataType": "STRING"
+		},
+		{
+			"name": "url.ip.geoip.latitude",
+			"dataType": "DOUBLE"
+		},
+		{
+			"name": "url.ip.geoip.ip",
+			"dataType": "STRING"
+		},
+		{
+			"name": "url.ip.geoip.isp",
+			"dataType": "STRING"
+		},
+		{
+			"name": "url.ip.geoip.continent_code",
+			"dataType": "STRING"
+		},
+		{
+			"name": "url.ip.geoip.organization_name",
+			"dataType": "STRING"
+		},
+		{
+			"name": "url.ip.geoip.country_code",
+			"dataType": "STRING"
+		},
+		{
+			"name": "url.ip.geoip.asn_org",
+			"dataType": "STRING"
+		},
+		{
+			"name": "url.ip.geoip.country_code2",
+			"dataType": "STRING"
+		},
+		{
+			"name": "url.ip.geoip.country_name",
+			"dataType": "STRING"
+		},
+		{
+			"name": "url.ip.geoip.country_code3",
+			"dataType": "STRING"
+		},
+		{
+			"name": "url.ip.geoip.location.lon",
+			"dataType": "DOUBLE"
+		},
+		{
+			"name": "url.ip.geoip.location.lat",
+			"dataType": "DOUBLE"
+		},
+		{
+			"name": "url.ip.geoip.asn",
+			"dataType": "STRING"
+		},
+		{
+			"name": "url.ip.geoip.longitude",
+			"dataType": "DOUBLE"
+		},
+		{
+			"name": "url.ip.addr",
+			"dataType": "STRING"
+		},
+		{
+			"name": "url.host",
+			"dataType": "STRING"
+		},
+		{
+			"name": "url.url",
+			"dataType": "STRING"
+		}
+	],
+  "dateTimeFieldSpecs": [{
+      "name": "updated_time",
+      "dataType": "LONG",
+      "format": "1:MILLISECONDS:EPOCH",
+      "granularity": "1:MILLISECONDS"
+    },
+    {
+      "name": "collection_time",
+      "dataType": "LONG",
+      "format": "1:MILLISECONDS:EPOCH",
+      "granularity": "1:MILLISECONDS"
+    },
+    {
+      "name": "report_time",
+      "dataType": "LONG",
+      "format": "1:MILLISECONDS:EPOCH",
+      "granularity": "1:MILLISECONDS"
+    },
+    {
+      "name": "sequence_time",
+      "dataType": "LONG",
+      "format": "1:MILLISECONDS:EPOCH",
+      "granularity": "1:MILLISECONDS"
+    }
+  ]
+}
