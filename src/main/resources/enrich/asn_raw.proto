@@ -1,0 +1,20 @@
+syntax = "proto3";
+option java_multiple_files = true;
+option java_package = "com.q6cyber.dao.enrich";
+
+import "common/es_metadata.proto";
+import "enrich/asn_net_class.proto";
+
+package enrich;
+
+message AsnRaw {
+  string id = 1;
+  common.EsMetadata es_metadata = 2;
+  string cidr = 4;
+  uint64 asn = 5;
+  uint64 timestamp = 6; //unix epoch second timestamp
+  string country_code = 7;
+  string description = 8;
+  AsnNetClass net_class = 9;
+}
+

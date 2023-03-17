@@ -1,0 +1,67 @@
+syntax = "proto3";
+option java_multiple_files = true;
+option java_package = "com.q6cyber.dao.common";
+
+import "common/lat_lon.proto";
+import "enrich/asn_net_class.proto";
+import "google/protobuf/timestamp.proto";
+
+package common;
+
+message Ip {
+  string addr = 1;
+  GeoIp geoip = 3;
+  string cidr = 5;
+  Rdns rdns = 4;
+  uint32 port = 6;
+  ThreatInfrastructureRef threat_infra = 7; 
+  ClientRef client = 9; 
+  BotInfoRef infection = 10; 
+  enrich.AsnNetClass asn_class = 8; 
+}
+
+message Rdns {
+  string host = 1; //the fqdn: siren.internal.q6cyber.com
+  string domain = 2; //the top private domain: q6cyber.com
+  string sub_domain = 3; //host and subdomain if present: siren.internal
+  string hostname = 5; //just the host: siren
+  google.protobuf.Timestamp time = 4; //time we performed the resolution.
+}
+
+message ThreatInfrastructureRef {
+  repeated string ids = 1;
+  repeated string tags = 2;
+}
+
+message ClientRef {
+  repeated string id = 1;
+}
+
+message BotInfoRef {
+  repeated string id = 1;
+  repeated string bot_id = 2;
+  repeated string malware = 3;
+}
+
+message GeoIp {
+  float latitude = 1;
+  float longitude = 2;
+  common.LatLon location = 3; //most new data is in the form of this object.
+  string city_name = 4;
+  string continent_code = 5;
+  string country_code = 6;
+  string country_code2 = 7;
+  string country_code3 = 8;
+  string country_name = 9;
+  uint32 dma_code = 10;
+  string ip = 11;
+  string postal_code = 12;
+  string region_code = 13;
+  string region_name = 14;
+  string timezone = 16; //existing records have both timezone and time_zone
+  uint64 asn = 18;
+  string asn_org = 20;
+  string isp = 21;
+  string organization_name = 22;
+  string connection_type = 23;
+}

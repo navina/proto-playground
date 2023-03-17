@@ -1,0 +1,45 @@
+syntax = "proto3";
+option java_multiple_files = true;
+option java_package = "com.q6cyber.dao.common";
+
+import "google/protobuf/struct.proto";
+import "google/protobuf/descriptor.proto";
+
+
+package common;
+
+extend google.protobuf.MessageOptions {
+  optional bool no_save_es = 50001;
+}
+
+
+message EsMetadata {
+  option (no_save_es) = true;
+  string id = 1;
+  string es_index = 2;
+  string es_type = 3;
+  uint64 version = 4;
+  uint64 sequence_number = 5;
+  uint64 primary_term = 6;
+  float score = 7;
+  uint64 took_in_millis = 8;
+  uint64 total_hits = 9;
+  google.protobuf.Value fields = 10;
+
+  string scroll_id = 11;
+  uint32 total_shards = 12;
+  uint32 successful_shards = 13;
+  uint32 skipped_shards = 14;
+  repeated string shard_failures = 15;
+  repeated string search_response_clusters = 16;
+  NestedIdentity nested_identity = 17;
+
+  repeated string matched_queries = 20;
+  map<string, string> highlights = 25;
+}
+
+message NestedIdentity {
+  string field = 1;
+  uint32 offset = 2;
+  NestedIdentity child = 3;
+}

@@ -1,0 +1,116 @@
+syntax = "proto3";
+option java_multiple_files = true;
+option java_package = "com.q6cyber.dao.enrich";
+
+import "common/es_metadata.proto";
+import "google/protobuf/timestamp.proto";
+
+package enrich;
+
+//docs: https://www.peeringdb.com/apidocs/#tag/api/operation/list%20net
+// all objects with nested objects GET https://www.peeringdb.com/api/net?depth=2
+// all objects with no nested GET https://www.peeringdb.com/api/net?depth=0
+message AsnNetClass {
+    uint64 id = 1;
+    common.EsMetadata es_metadata = 2;
+    uint32 org_id = 3;
+    string name = 4;
+    string aka = 5;
+    string name_long = 6;
+    string website = 7; //url
+    uint64 asn = 8;
+    string looking_glass = 9; //url
+    string route_server = 10;//url
+    string irr_as_set = 11;
+    string info_type = 12; //    Enum: "" "Not Disclosed" "NSP" "Content" "Cable/DSL/ISP" "Enterprise" "Educational/Research" "Non-Profit" "Route Server" "Network Services" "Route Collector" "Government"
+    uint64 info_prefixes4 = 13;
+    uint64 info_prefixes6 = 14;
+    string info_traffic = 15; // Enum: "" "0-20Mbps" "20-100Mbps" "100-1000Mbps" "1-5Gbps" "5-10Gbps" "10-20Gbps" "20-50Gbps" "50-100Gbps" "100-200Gbps" "200-300Gbps" "300-500Gbps" "500-1000Gbps" "1-5Tbps" "5-10Tbps" "10-20Tbps" "20-50Tbps" "50-100Tbps" "100+Tbps"
+    string info_ratio = 16; // Enum: "" "Not Disclosed" "Heavy Outbound" "Mostly Outbound" "Balanced" "Mostly Inbound" "Heavy Inbound"
+    string info_scope = 17 ; // Enum: "" "Not Disclosed" "Regional" "North America" "Asia Pacific" "Europe" "South America" "Africa" "Australia" "Middle East" "Global"
+    bool info_unicast = 18 ;
+    bool info_multicast = 19;
+    bool info_ipv6 = 20;
+    bool info_never_via_route_servers = 21;
+    uint64 ix_count = 22;
+    uint64 fac_count = 23;
+    string notes = 24;
+    google.protobuf.Timestamp netixlan_updated = 36;
+    google.protobuf.Timestamp netfac_updated = 37;
+    google.protobuf.Timestamp poc_updated = 38;
+
+    string policy_url = 25;
+    string policy_general = 26;
+    string policy_locations = 27; //Enum: "Not Required" "Preferred" "Required - US" "Required - EU" "Required - International"
+    bool policy_ratio = 28;
+    string policy_contracts = 29; //Enum: Enum: "Not Required" "Private Only" "Required"
+    repeated NetFac netfac_set = 41;
+    repeated NetIxLan netixlan_set = 42;
+    repeated Poc poc_set = 43;
+    bool allow_ixp_update = 30;
+    bool suggest = 31;
+    string status_dashboard = 32; //url
+    string rir_status = 33;
+    google.protobuf.Timestamp rir_status_updated = 34;
+    google.protobuf.Timestamp created = 39;
+    google.protobuf.Timestamp updated = 40;
+    string status = 35;
+
+}
+
+enum PolicyGeneral {
+    POLICY_GENERAL_UNSPECIFIED = 0;
+    Open = 1;
+    Selective = 2;
+    Restrictive = 3;
+    No = 4;
+}
+
+message NetFac {
+    uint64 id = 1;
+    string name = 2;
+    string city = 3;
+    uint64 fac_id = 4;
+    string fac = 5;
+    uint64 local_asn = 6;
+    google.protobuf.Timestamp created = 7;
+    google.protobuf.Timestamp updated = 8;
+    string status = 9;
+}
+
+message NetIxLan {
+    uint64 id = 1;
+    string ix_id = 2;
+    string name = 3;
+    string ixlan_id = 4;
+    string ixlan = 5;
+    string notes = 6;
+    uint64 speed = 7;
+    uint64 asn = 8;
+    string ipaddr4 = 9;
+    string ipaddr6 = 10;
+    bool is_rs_peer = 11;
+    bool operational = 12;
+    google.protobuf.Timestamp created = 13;
+    google.protobuf.Timestamp updated = 14;
+    string status = 15;
+}
+
+message Poc {
+    enum Visible {
+        VISIBLE_UNSPECIFIED = 0;
+        Private = 1;
+        Users = 2;
+        Public = 3;
+    }
+    uint64 id = 1;
+    string role = 2;
+    Visible visible = 3;
+    string name = 4;
+    string phone = 5;
+    string email = 6;
+    string url = 7; //url
+    google.protobuf.Timestamp created = 8;
+    google.protobuf.Timestamp updated = 9;
+    string status = 10;
+}

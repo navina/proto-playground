@@ -1,0 +1,55 @@
+syntax = "proto3";
+option java_multiple_files = true;
+option java_package = "com.q6cyber.dao.kafka";
+
+import "common/credential.proto";
+import "common/parsed_url.proto";
+
+package kafka;
+
+message KafkaBnrUrl {
+  string id = 1;
+  string bot_id = 3;
+  string common_victim_id = 5; 
+  string report_id = 7; 
+  string source_name = 9;
+
+  uint64 updated_time = 11;
+  uint64 collection_time = 13;
+  uint64 report_time = 15; 
+  uint64 sequence_time = 16; 
+
+  common.ParsedUrl url = 17;
+  common.ParsedUrl referrer = 19;
+}
+
+message KafkaBnrUrlSessionData {
+  string id = 1; 
+  string bot_id = 3;
+  string common_victim_id = 5; 
+  string report_id = 7; 
+  string source_name = 9;
+
+  uint64 updated_time = 11;
+  uint64 collection_time = 13;
+  uint64 report_time = 15; 
+  uint64 sequence_time = 16; 
+
+  common.ParsedUrl url = 17;
+  common.ParsedUrl referrer = 19;
+
+  oneof session {
+    common.Credential credentials = 21;
+    KafkaSessionDataItem session_data = 22; 
+  }
+
+}
+
+message KafkaSessionDataItem {
+  string field = 1; 
+  string data = 3; 
+  bool is_cookie = 5;
+}
+
+
+

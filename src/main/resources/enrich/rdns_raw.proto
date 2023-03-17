@@ -1,0 +1,17 @@
+syntax = "proto3";
+option java_multiple_files = true;
+option java_package = "com.q6cyber.dao.enrich";
+
+import "common/es_metadata.proto";
+
+package enrich;
+
+message RdnsRaw {
+  string id = 1;
+  common.EsMetadata es_metadata = 2;
+  string ip = 3;
+  string range_ip = 4;
+  string value = 5;
+  uint64 timestamp = 6;
+}
+

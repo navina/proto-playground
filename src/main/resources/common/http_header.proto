@@ -1,0 +1,23 @@
+syntax = "proto3";
+option java_multiple_files = true;
+option java_package = "com.q6cyber.dao.common";
+
+package common;
+
+message HttpHeader{
+  enum HttpVerb {
+    HTTP_VERB_UNKNOWN = 0;
+    GET = 1;
+    PUT = 2;
+    POST = 3;
+    DELETE = 4;
+    PATCH = 5;
+  }
+  HttpVerb verb = 20;
+  string header = 1; 
+  string cookies = 2; 
+  string referer = 3;
+  map<string, string> cookie_map = 4; 
+  map<string, string> header_map = 5; 
+}
+

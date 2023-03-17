@@ -1,0 +1,16 @@
+syntax = "proto3";
+option java_multiple_files = true;
+option java_package = "com.q6cyber.dao.common";
+
+package common;
+
+
+message ElasticRef {
+  string id = 1; 
+  oneof lookup {
+    string descriptor_name = 2 [json_name="descriptor_name"]; 
+    string class_name = 3 [json_name="class_name"]; 
+    string index_name = 4 [json_name="index_name"]; 
+  }
+
+}

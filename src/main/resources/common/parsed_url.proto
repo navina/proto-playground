@@ -1,0 +1,23 @@
+syntax = "proto3";
+option java_multiple_files = true;
+option java_package = "com.q6cyber.dao.common";
+import "google/protobuf/struct.proto";
+import "common/http_header.proto";
+import "common/ip.proto";
+
+package common;
+
+message ParsedUrl {
+  string url = 1;
+  string host = 2; // hostname or IP of the target of the event.
+  string domain = 3; //top private domain for this url, as indicated by Guava InternetDomainName class.
+  uint32 port = 4; //port
+  string path = 5; //URL path
+  string proto = 6; //URL protocol
+  string params = 7; //URL parameter string
+  google.protobuf.Value param_map = 8; 
+  string username = 9; 
+  string password = 10; 
+  common.HttpHeader.HttpVerb verb = 11;
+  common.Ip ip=13;
+}
