@@ -7,7 +7,16 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
 import java.util.Set;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.kafka.clients.producer.KafkaProducer;
+import org.apache.kafka.clients.producer.ProducerConfig;
+import org.apache.kafka.clients.producer.ProducerRecord;
+import org.apache.kafka.common.serialization.ByteArraySerializer;
 import org.apache.pinot.plugin.inputformat.protobuf.ProtoBufMessageDecoder;
 import org.apache.pinot.segment.local.segment.creator.TransformPipeline;
 import org.apache.pinot.segment.local.utils.IngestionUtils;
@@ -42,17 +51,29 @@ public class ProtobufTest {
       try (FileInputStream fis = new FileInputStream(DATA_FILE_NAME)) {
         KafkaBnrUrl url;
         while ( (url = KafkaBnrUrl.parseDelimitedFrom(fis)) != null) {
+          if (StringUtils.isBlank(url.getUrl().getHost())){
+            throw new NullPointerException("no empty hosts");
+          }
           byte[] bytes = url.toByteArray();
           reuse.clear();
           decoder.decode(bytes, reuse);
           System.out.println("Desrialized and Extracted Record");
+/*          if (reuse.hasNullValues()) {
+            System.out.println("Null values: ");
+            reuse.getNullValueFields().forEach(System.out::println);
+          }*/
           System.out.println(reuse);
+
           result.reset();
           transformPipeline.processRow(reuse, result);
-          System.out.println("Transformed row(s)");
+/*          System.out.println("Transformed row(s)");
           result.getTransformedRows().forEach(row -> {
-            System.out.println(row.toString());
-          });
+            if (row.hasNullValues()) {
+              System.out.println("Null values: ");
+              row.getNullValueFields().forEach(System.out::println);
+            }
+//            System.out.println(row.toString());
+          });*/
           System.out.println("==========================");
         }
       } catch (IOException e) {
@@ -60,6 +81,29 @@ public class ProtobufTest {
       }
     } catch (Exception e) {
       LOGGER.error("Failed to setup decoder correctly", e);
+    }
+  }
+
+  public void produceToKafka() {
+    Properties properties = new Properties();
+    properties.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, ByteArraySerializer.class.getName());
+    properties.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, ByteArraySerializer.class.getName());
+    properties.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
+
+    try (
+        FileInputStream fis = new FileInputStream(DATA_FILE_NAME);
+        KafkaProducer<byte[], byte[]> producer = new KafkaProducer<>(properties)) {
+      KafkaBnrUrl url;
+      while ((url = KafkaBnrUrl.parseDelimitedFrom(fis)) != null) {
+        byte[] bytes = url.toByteArray();
+        ProducerRecord<byte[], byte[]> record = new ProducerRecord<>("url2", bytes);
+        producer.send(record).get(30, TimeUnit.SECONDS);
+
+      }
+    } catch (IOException e) {
+      LOGGER.error("Failed to open input file", e);
+    } catch (ExecutionException | InterruptedException | TimeoutException e) {
+      LOGGER.error("Failed to produce", e);
     }
   }
 
@@ -113,7 +157,8 @@ public class ProtobufTest {
 
   public static void main(String[] args) {
     ProtobufTest testObj = new ProtobufTest();
-    testObj.doTest();
+//    testObj.doTest();
+    testObj.produceToKafka();
   }
 
 
